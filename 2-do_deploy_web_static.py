@@ -14,7 +14,7 @@ def do_deploy(archive_path):
 
     if path.exists(archive_path):
         if path.exists(archive_path) is False:
-        return False
+            return False
     else:
         try:
             put(archive_path, "/tmp/")
@@ -28,7 +28,7 @@ def do_deploy(archive_path):
             run("rm -rf " + final_name + "web_static")
             run("rm -rf /data/web_static/current")
             run("ln -s " + final_name + " /data/web_static/current")
-            print("Updated version deployed!")
+            print("New version deployed!")
             return True
         except Exception:
             return False
