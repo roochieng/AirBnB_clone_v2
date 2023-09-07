@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-from datetime import datetime
-from fabric.api import *
+from fabric.api import run, put, env
 from os import path
 
 
@@ -14,23 +13,22 @@ def do_deploy(archive_path):
     """
 
     if path.exists(archive_path):
-        if os.path.exists(archive_path) is False:
+        if path.exists(archive_path) is False:
         return False
     else:
         try:
-            archive = archive_path.split('/')[1]
-            a_path = f"/tmp/{archive}"
-            folder = archive.split('.')[0]
-            f_path = f"/data/web_static/releases/{folder}/")
-            put(archive_path, a_path)
-            run(f"mkdir -p {f_path}")
-            run(f"tar -xzf {a_path} -C {f_path}")
-            run(f"rm {a_path}")
-            run(f"mv -f {f_path}web_static/* {f_path}")
-            run(f"rm -rf {f_path}web_static")
+            put(archive_path, "/tmp/")
+            file_name = archive_path.split("/")[1]
+            file_name2 = file_name.split(".")[0]
+            final_name = "/data/web_static/releases/" + file_name2 + "/"
+            run("mkdir -p " + final_name)
+            run("tar -xzf /tmp/" + file_name + " -C " + final_name)
+            run("rm /tmp/" + file_name)
+            run("mv " + final_name + "web_static/* " + final_name)
+            run("rm -rf " + final_name + "web_static")
             run("rm -rf /data/web_static/current")
-            run(f"ln -s {f_path} /data/web_static/current")
-
+            run("ln -s " + final_name + " /data/web_static/current")
+            print("Updated version deployed!")
             return True
         except Exception:
             return False
