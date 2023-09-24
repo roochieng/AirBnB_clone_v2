@@ -5,7 +5,10 @@ Application listens on 0.0.0.0, port 5000.
 Routes:
     /hbnb: HBnB home page.
 """
-import models.engine.file_storage
+import sys
+sys.path.append('../models')
+
+from ..models.engine import file_storage
 from flask import Flask
 from flask import render_template
 
