@@ -8,7 +8,7 @@ Routes:
 import sys
 sys.path.append('../models')
 
-from ..models.engine import file_storage
+from models.engine import file_storage
 from flask import Flask
 from flask import render_template
 
